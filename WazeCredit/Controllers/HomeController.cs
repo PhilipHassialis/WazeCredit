@@ -24,8 +24,8 @@ namespace WazeCredit.Controllers
         {
             
 
-            //MarketForecaster marketForecaster = new MarketForecaster();
-            MarketForecasterV2 marketForecaster = new MarketForecasterV2();
+            MarketForecaster marketForecaster = new MarketForecaster();
+            //MarketForecasterV2 marketForecaster = new MarketForecasterV2();
             MarketResult currentMarket = marketForecaster.GetMarketPrediction();
 
             switch (currentMarket.MarketCondition)
