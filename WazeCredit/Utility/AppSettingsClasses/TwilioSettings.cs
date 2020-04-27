@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WazeCredit.Utility.AppSettingsClasses
 {
-    public class TwillioSettings
+    public class TwilioSettings
     {
         public string PhoneNumber { get; set; }
         public string AuthToken { get; set; }

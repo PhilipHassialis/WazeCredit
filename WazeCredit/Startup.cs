@@ -40,7 +40,7 @@ namespace WazeCredit
             services.Configure<WazeForecastSettings>(Configuration.GetSection("WazeForecast"));
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.Configure<SendGridSettings>(Configuration.GetSection("SendGrid"));
-            services.Configure<TwillioSettings>(Configuration.GetSection("Twillio"));
+            services.Configure<TwilioSettings>(Configuration.GetSection("Twilio"));
 
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

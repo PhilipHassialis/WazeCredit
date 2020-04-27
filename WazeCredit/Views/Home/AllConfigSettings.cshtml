@@ -1,0 +1,12 @@
+﻿
+@model List<String>
+
+<div class="p-4">
+    <h3>Configuration from AppSettings:</h3>
+    <ul>
+        @foreach (var message in Model)
+        {
+            <li>@message</li>
+        }
+    </ul>
+</div>
