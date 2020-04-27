@@ -10,6 +10,7 @@ namespace WazeCredit.Service
     {
         public MarketResult GetMarketPrediction()
         {
+            // hard coding result from API / calculations etc
             return new MarketResult() { MarketCondition = MarketCondition.StableUp };
         }
     }

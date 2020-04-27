@@ -6,21 +6,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WazeCredit.Models;
+using WazeCredit.Models.ViewModels;
+using WazeCredit.Service;
 
 namespace WazeCredit.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM homeVM = new HomeVM();
+
+            MarketForecaster marketForecaster = new MarketForecaster();
+            MarketResult currentMarket = marketForecaster.GetMarketPrediction();
+
+            switch (currentMarket.MarketCondition)
+            {
+                case MarketCondition.StableDown:
+                    homeVM.MarketForecast = "Market stable going down";
+                    break;
+                case MarketCondition.StableUp:
+                    homeVM.MarketForecast = "Market stable going up";
+                    break;
+                case MarketCondition.Volatile:
+                    homeVM.MarketForecast = "Market is volatile";
+                    break;
+                default:
+                    homeVM.MarketForecast = "Situation Unknown with market";
+                    break;
+            }
+            return View(homeVM);
         }
 
         public IActionResult Privacy()
