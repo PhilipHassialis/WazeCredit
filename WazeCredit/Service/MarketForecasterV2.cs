@@ -6,12 +6,12 @@ using WazeCredit.Models;
 
 namespace WazeCredit.Service
 {
-    public class MarketForecaster
+    public class MarketForecasterV2
     {
         public MarketResult GetMarketPrediction()
         {
             // hard coding result from API / calculations etc
-            return new MarketResult() { MarketCondition = MarketCondition.StableUp };
+            return new MarketResult() { MarketCondition = MarketCondition.Volatile };
         }
     }
 
