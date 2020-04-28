@@ -22,20 +22,12 @@ namespace WazeCredit.Controllers
         private readonly TwilioSettings _twilioOptions;
         private readonly WazeForecastSettings _wazeOptions;
 
-        public HomeController(IMarketForecaster marketForecaster,
-            IOptions<StripeSettings> stripeOptions, 
-            IOptions<SendGridSettings> sendGridOptions, 
-            IOptions<TwilioSettings> twilioOptions, 
-            IOptions<WazeForecastSettings> wazeOptions)
+        public HomeController(IMarketForecaster marketForecaster, IOptions<WazeForecastSettings> wazeOptions)
         {
             homeVM = new HomeVM(); // for Index IActionResult
-
+            _wazeOptions = wazeOptions.Value;
             // for AllConfigSettings IActionResult
             _marketForecaster = marketForecaster;
-            _stripeOptions = stripeOptions.Value;
-            _sendGridOptions = sendGridOptions.Value;
-            _twilioOptions = twilioOptions.Value;
-            _wazeOptions = wazeOptions.Value;
 
         }
 
@@ -63,16 +55,21 @@ namespace WazeCredit.Controllers
             return View(homeVM);
         }
 
-        public IActionResult AllConfigSettings()
+        public IActionResult AllConfigSettings(
+            [FromServices] IOptions<StripeSettings> stripeOptions,
+            [FromServices] IOptions<SendGridSettings> sendGridOptions,
+            [FromServices] IOptions<TwilioSettings> twilioOptions
+
+            )
         {
             List<string> messages = new List<string>();
             messages.Add($"Waze options - Forecast Tracker:" + _wazeOptions.ForecastTrackerEnabled);
-            messages.Add($"Stripe options - Publishable Key:" + _stripeOptions.PublishableKey);
-            messages.Add($"Stripe options - Secret Key:" + _stripeOptions.SecretKey);
-            messages.Add($"SendGrid options - SendGrid Key: " + _sendGridOptions.SendGridKey);
-            messages.Add($"Twilio options - Account SID: " + _twilioOptions.AccountSid);
-            messages.Add($"Twilio options - Auth Token: " + _twilioOptions.AuthToken);
-            messages.Add($"Twilio options - Phone Number: " + _twilioOptions.PhoneNumber);
+            messages.Add($"Stripe options - Publishable Key:" + stripeOptions.Value.PublishableKey);
+            messages.Add($"Stripe options - Secret Key:" + stripeOptions.Value.SecretKey);
+            messages.Add($"SendGrid options - SendGrid Key: " + sendGridOptions.Value.SendGridKey);
+            messages.Add($"Twilio options - Account SID: " + twilioOptions.Value.AccountSid);
+            messages.Add($"Twilio options - Auth Token: " + twilioOptions.Value.AuthToken);
+            messages.Add($"Twilio options - Phone Number: " + twilioOptions.Value.PhoneNumber);
 
             return View(messages);
 
