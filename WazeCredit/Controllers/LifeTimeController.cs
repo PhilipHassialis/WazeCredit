@@ -32,11 +32,11 @@ namespace WazeCredit.Controllers
             var messages = new List<String>
             {
                 HttpContext.Items["CustomMiddlewareTransient"].ToString(),
-                $"Transient Middleware - {_transientService.GetGuid()}",
+                $"Transient Controller - {_transientService.GetGuid()}",
                 HttpContext.Items["CustomMiddlewareScoped"].ToString(),
-                $"Scoped Middleware - {_scopedService.GetGuid()}",
+                $"Scoped Controller - {_scopedService.GetGuid()}",
                 HttpContext.Items["CustomMiddlewareSingleton"].ToString(),
-                $"Singleton Middleware - {_singletonService.GetGuid()}"
+                $"Singleton Controller - {_singletonService.GetGuid()}"
             };
 
             return View(messages);
