@@ -17,6 +17,7 @@ using WazeCredit.Utility.AppSettingsClasses;
 using WazeCredit.Utility.DI_Config;
 using WazeCredit.Middleware;
 using WazeCredit.Service.LifeTimeExample;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace WazeCredit
 {
@@ -50,6 +51,8 @@ namespace WazeCredit
             services.AddTransient<TransientService>();
             services.AddScoped<ScopedService>();
             services.AddSingleton<SingletonService>();
+
+            services.TryAddTransient<IMarketForecaster, MarketForecaster>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
