@@ -28,7 +28,9 @@ namespace WazeCredit.Controllers
             IOptions<TwilioSettings> twilioOptions, 
             IOptions<WazeForecastSettings> wazeOptions)
         {
-            homeVM = new HomeVM();
+            homeVM = new HomeVM(); // for Index IActionResult
+
+            // for AllConfigSettings IActionResult
             _marketForecaster = marketForecaster;
             _stripeOptions = stripeOptions.Value;
             _sendGridOptions = sendGridOptions.Value;

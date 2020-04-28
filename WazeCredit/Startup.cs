@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using WazeCredit.Service;
 using WazeCredit.Utility.AppSettingsClasses;
 using WazeCredit.Utility.DI_Config;
+using WazeCredit.Middleware;
+using WazeCredit.Service.LifeTimeExample;
 
 namespace WazeCredit
 {
@@ -40,6 +42,9 @@ namespace WazeCredit
 
             services.AddAppSettingsConfig(Configuration);
 
+            services.AddTransient<TransientService>();
+            services.AddScoped<ScopedService>();
+            services.AddSingleton<SingletonService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -66,6 +71,8 @@ namespace WazeCredit
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
