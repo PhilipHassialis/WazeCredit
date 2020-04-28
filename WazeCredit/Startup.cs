@@ -52,8 +52,9 @@ namespace WazeCredit
             services.AddScoped<ScopedService>();
             services.AddSingleton<SingletonService>();
             services.AddTransient<IMarketForecaster, MarketForecasterV2>();
-            //services.TryAddTransient<IMarketForecaster, MarketForecaster>();
-            services.Replace(ServiceDescriptor.Transient<IMarketForecaster, MarketForecasterV2>());
+            services.RemoveAll<IMarketForecaster>();
+            services.TryAddTransient<IMarketForecaster, MarketForecaster>();
+            //services.Replace(ServiceDescriptor.Transient<IMarketForecaster, MarketForecasterV2>());
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
