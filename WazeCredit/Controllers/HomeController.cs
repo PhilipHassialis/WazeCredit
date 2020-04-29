@@ -23,6 +23,8 @@ namespace WazeCredit.Controllers
 
         private readonly ApplicationDbContext _db;
 
+        private readonly ILogger _logger;
+
         private readonly StripeSettings _stripeOptions;
         private readonly SendGridSettings _sendGridOptions;
         private readonly TwilioSettings _twilioOptions;
@@ -34,9 +36,11 @@ namespace WazeCredit.Controllers
         public HomeController(IMarketForecaster marketForecaster, 
             IOptions<WazeForecastSettings> wazeOptions, 
             ICreditValidator creditValidator, 
-            ApplicationDbContext db)
+            ApplicationDbContext db,
+            ILogger<HomeController> logger)
         {
             homeVM = new HomeVM(); // for Index IActionResult
+            _logger = logger;
             _wazeOptions = wazeOptions.Value;
             // for AllConfigSettings IActionResult
             _marketForecaster = marketForecaster;
@@ -48,7 +52,7 @@ namespace WazeCredit.Controllers
         public IActionResult Index()
         {
 
-
+            _logger.LogInformation("HomeController Index started");
             MarketResult currentMarket = _marketForecaster.GetMarketPrediction();
 
             switch (currentMarket.MarketCondition)
@@ -66,6 +70,7 @@ namespace WazeCredit.Controllers
                     homeVM.MarketForecast = "Situation Unknown with market";
                     break;
             }
+            _logger.LogInformation("HomeController Index ended");
             return View(homeVM);
         }
 
