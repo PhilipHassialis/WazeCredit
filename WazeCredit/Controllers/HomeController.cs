@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WazeCredit.Data;
+using WazeCredit.Data.Repository.IRepository;
 using WazeCredit.Models;
 using WazeCredit.Models.ViewModels;
 using WazeCredit.Service;
@@ -21,7 +22,8 @@ namespace WazeCredit.Controllers
 
         private readonly ICreditValidator _creditValidator;
 
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly ILogger _logger;
 
@@ -35,8 +37,9 @@ namespace WazeCredit.Controllers
 
         public HomeController(IMarketForecaster marketForecaster, 
             IOptions<WazeForecastSettings> wazeOptions, 
-            ICreditValidator creditValidator, 
-            ApplicationDbContext db,
+            ICreditValidator creditValidator,
+            //ApplicationDbContext db,
+            IUnitOfWork unitOfWork,
             ILogger<HomeController> logger)
         {
             homeVM = new HomeVM(); // for Index IActionResult
@@ -45,7 +48,8 @@ namespace WazeCredit.Controllers
             // for AllConfigSettings IActionResult
             _marketForecaster = marketForecaster;
             _creditValidator = creditValidator;
-            _db = db;
+            //_db = db;
+            _unitOfWork = unitOfWork;
 
         }
 
@@ -126,8 +130,12 @@ namespace WazeCredit.Controllers
                         CreditModel.Salary > 50000 ? CreditApprovedEnum.High : CreditApprovedEnum.Low
                         ).GetCreditApproved(CreditModel);
 
-                    _db.CreditApplicationModel.Add(CreditModel);
-                    _db.SaveChanges();
+                    //_db.CreditApplicationModel.Add(CreditModel);
+                    //_db.SaveChanges();
+
+                    _unitOfWork.CreditApplication.Add(CreditModel);
+                    _unitOfWork.Save();
+
                     creditResult.CreditID = CreditModel.Id;
                     creditResult.CreditApproved = CreditModel.CreditApproved;
 
