@@ -18,6 +18,7 @@ using WazeCredit.Utility.DI_Config;
 using WazeCredit.Middleware;
 using WazeCredit.Service.LifeTimeExample;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WazeCredit.Models;
 
 namespace WazeCredit
 {
@@ -65,6 +66,26 @@ namespace WazeCredit
             services.AddTransient<TransientService>();
             services.AddScoped<ScopedService>();
             services.AddSingleton<SingletonService>();
+
+            services.AddScoped<CreditApprovedHigh>();
+            services.AddScoped<CreditApprovedLow>();
+
+
+            services.AddScoped<Func<CreditApprovedEnum, ICreditApproved>>(ServiceProvider => range =>
+            {
+                switch(range)
+                {
+                    case CreditApprovedEnum.High: 
+                        return ServiceProvider.GetService<CreditApprovedHigh>(); 
+                    case CreditApprovedEnum.Low:
+                        return ServiceProvider.GetService<CreditApprovedLow>();
+                    default:
+                        return ServiceProvider.GetService<CreditApprovedLow>();
+
+
+                }
+            });
+
             services.AddTransient<IMarketForecaster, MarketForecasterV2>();
             services.RemoveAll<IMarketForecaster>();
             services.TryAddTransient<IMarketForecaster, MarketForecaster>();
