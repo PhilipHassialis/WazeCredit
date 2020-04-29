@@ -13,7 +13,7 @@ namespace WazeCredit.Models
         public string SSN { get; set; }
         [DataType(DataType.Date)]
         public DateTime DOB { get; set; }
-        public string Adderss { get; set; }
+        public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         [Required]
