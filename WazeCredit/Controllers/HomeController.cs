@@ -20,13 +20,14 @@ namespace WazeCredit.Controllers
 
         private readonly ICreditValidator _creditValidator;
 
+
         private readonly StripeSettings _stripeOptions;
         private readonly SendGridSettings _sendGridOptions;
         private readonly TwilioSettings _twilioOptions;
         private readonly WazeForecastSettings _wazeOptions;
 
         [BindProperty]
-        private CreditApplication CreditModel { get; set; }
+        public CreditApplication CreditModel { get; set; }
 
         public HomeController(IMarketForecaster marketForecaster, IOptions<WazeForecastSettings> wazeOptions, ICreditValidator creditValidator)
         {
